@@ -1,0 +1,21 @@
+db:
+    image: mysql:latest
+    environment:
+        MYSQL_DATABASE: sample_db
+        MYSQL_USER: sample
+        MYSQL_PASSWORD: sample_password
+        MYSQL_ROOT_PASSWORD: sample_root_password
+    volumes:
+      - ./mysql/mysql-confd:/etc/mysql/conf.d
+web:
+    image: nginx:latest
+    volumes:
+        - ./nginx:/usr/share/nginx/html
+    ports:
+        - 8080:80
+web2:
+    build: ./web
+    links:
+        - db:db-server
+    ports:
+        - 8081:80
